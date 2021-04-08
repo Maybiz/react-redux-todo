@@ -19,11 +19,11 @@ export default connect(state => {
   let todos;
   switch(filter) {
     case VisibilityFilters.SHOW_DONE: {
-      todos = state.todos.filter( t => t.done )
+      todos = state.todos.filter( item => item.done )
       break;
     }
     case VisibilityFilters.SHOW_ACTIVE: {
-      todos = state.todos.filter( t => !t.done )
+      todos = state.todos.filter( item => !item.done )
       break;
     }
     default: {
