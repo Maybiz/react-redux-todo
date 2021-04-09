@@ -29,11 +29,18 @@ export const todos = (state = initialStateTodos, action) => {
           loading: true
       }
       case actions.FETCH_TODO_SUCCESS:
+      if (action.todos) {
         return {
           ...state,
           data: [ ...state.data, ...action.todos ],
           loading: false,
           error: null
+        }
+      } else {
+        return {
+          ...state,
+          loading: false
+        }
       }
       case actions.FETCH_TODO_ERROR:
         return {

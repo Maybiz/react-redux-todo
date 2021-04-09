@@ -64,7 +64,7 @@ export const fetchTodoError = (error) => {
   }
 }
 
-export const fetchTodos = () => {
+export const fetchTodo = () => {
   return dispatch => {
     
     dispatch(requestTodo())
