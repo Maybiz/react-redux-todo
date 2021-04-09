@@ -1,34 +1,19 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import TodoItem from './TodoItem';
-import { VisibilityFilters, toggleTodo, fetchTodo, tryDeleteTodo } from "../store/actions";
+import TodoItem from './TodoItem'
+import { toggleTodo, fetchTodo, tryDeleteTodo } from "../store/actions"
+import { filteredTodoDataSelector } from '../store/selectors'
 
 const TodoList = () => {
 
   const dispatch = useDispatch()
-  const filter = useSelector(state => state.filter)
   const todos = useSelector(state => {
-    let result
-    switch (filter) {
-      case VisibilityFilters.SHOW_DONE: {
-        result = state.todos.data.filter( t => t.done )
-        break;
-      }
-      case VisibilityFilters.SHOW_ACTIVE: {
-        result = state.todos.data.filter( t => !t.done )
-        break;
-      }
-      default: {
-        result = state.todos.data
-        break;
-      }
-    }
-    return result
+    return filteredTodoDataSelector(state)
   })
 
   useEffect(() => {
     dispatch(fetchTodo())
-  }, [])
+  }, [dispatch])
 
   return (
     <ul className="list-group">
