@@ -8,16 +8,26 @@ const initialStateTodos = {
 
 export const todos = (state = initialStateTodos, action) => {
     switch (action.type) {
-      case actions.ADD_TODO:
+      case actions.ADD_TODO_SUCCESS:
+        return {
+            ...state,
+            data: [ ...state.data, action.todo ]
+          }
+      case actions.ADD_TODO_ERROR:
         return {
           ...state,
-          data: [...state.data, action.todo]
-      }
-      case actions.DELETE_TODO:
+          error: action.error
+        }
+      case actions.DELETE_TODO_SUCCESS:
         return {
           ...state,
           data: state.data.filter((item, index) => index !== action.index)
-      }
+        }
+      case actions.DELETE_TODO_ERROR:
+        return {
+          ...state,
+          error: action.error
+        }
       case actions.TOGGLE_TODO:
         return {
           ...state,

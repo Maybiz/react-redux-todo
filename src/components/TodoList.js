@@ -1,41 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import TodoItem from './TodoItem';
-// import { connect } from 'react-redux'
-import { VisibilityFilters, toggleTodo, deleteTodo, fetchTodo } from "../store/actions";
+import { VisibilityFilters, toggleTodo, fetchTodo, tryDeleteTodo } from "../store/actions";
 
 const TodoList = () => {
 
-  const getFilter = useSelector(state => state.filter)
-  const getTodos = useSelector(state => state.todos.data)
   const dispatch = useDispatch()
-
-  const [todos, setTodos] = useState([])
-
-  useEffect(() => {
-
-    dispatch(fetchTodo())
-
-    switch (getFilter) {
+  const filter = useSelector(state => state.filter)
+  const todos = useSelector(state => {
+    let result
+    switch (filter) {
       case VisibilityFilters.SHOW_DONE: {
-        setTodos(getTodos.filter( item => item.done ))
+        result = state.todos.data.filter( t => t.done )
         break;
       }
       case VisibilityFilters.SHOW_ACTIVE: {
-        setTodos(getTodos.filter( item => !item.done ))
+        result = state.todos.data.filter( t => !t.done )
         break;
       }
       default: {
-        setTodos(getTodos)
+        result = state.todos.data
         break;
       }
     }
+    return result
+  })
 
-    console.log(todos)
-
-  }, [getFilter, getTodos])
-
-
+  useEffect(() => {
+    dispatch(fetchTodo())
+  }, [])
 
   return (
     <ul className="list-group">
@@ -43,7 +36,7 @@ const TodoList = () => {
         <TodoItem
           key={ item.name }
           todo={ item }
-          deleteTodo={ () => dispatch(deleteTodo(index)) }
+          deleteTodo={ () => dispatch(tryDeleteTodo(index)) }
           toggleTodo={ () => dispatch(toggleTodo(index)) }
         />
       )) }
@@ -52,56 +45,3 @@ const TodoList = () => {
 }
 
 export default TodoList
-
-
-
-
-
-
-
-// class TodoList extends Component {
-//   constructor(props) {
-//     super(props);
-//     props.fetchTodo();
-//   }
-
-//   render() {
-//     const { todos, deleteTodo, toggleTodo } = this.props;
-//     return (
-//       <ul className="list-group">
-//         { todos && todos.map( (item, index) => (
-//           <TodoItem
-//             key={ item.name }
-//             todo={ item }
-//             deleteTodo={ () => deleteTodo(i) }
-//             toggleTodo={ () => toggleTodo(i) }
-//           />
-//         )) }
-//       </ul>
-//     )
-//   }
-// }
-
-// export default connect(state => {
-//   const filter = state.filter;
-//   let todos;
-//   switch(filter) {
-//     case VisibilityFilters.SHOW_DONE: {
-//       todos = state.todos.data.filter( item => item.done )
-//       break;
-//     }
-//     case VisibilityFilters.SHOW_ACTIVE: {
-//       todos = state.todos.data.filter( item => !item.done )
-//       break;
-//     }
-//     default: {
-//       todos = state.todos.data
-//       break;
-//     }
-//   }
-//   return {todos};
-// }, {
-//   toggleTodo,
-//   deleteTodo,
-//   fetchTodo
-// })(TodoList);

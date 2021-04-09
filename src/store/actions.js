@@ -1,7 +1,17 @@
 import apiFirebase from '../config/api.firebase'
 
-export const ADD_TODO = 'add todo';
-export const DELETE_TODO = 'delete todo';
+export const TRY_ADD_TODO = 'try add todo';
+export const ADD_TODO_SUCCESS = 'add todo success';
+export const ADD_TODO_ERROR = 'add todo error';
+
+// export const DELETE_TODO = 'delete todo';
+
+export const TRY_DELETE_TODO = 'try delete todo'
+export const DELETE_TODO_SUCCESS = 'delete todo success'
+export const DELETE_TODO_ERROR = 'delete todo error'
+
+
+
 export const SET_FILTER = 'set filter';
 export const TOGGLE_TODO = 'toggle todo';
 
@@ -16,17 +26,51 @@ export const VisibilityFilters = {
     SHOW_ACTIVE: 'SHOW_ACTIVE'
 }
 
-export const addTodo = todo => {
+export const tryAddTodo = (todo) => {
+  return (dispatch, getState) => {
+    const todos = [ ...getState().todos.data, todo ];
+    return apiFirebase.put('todos.json', todos).then(
+      response => dispatch(addTodoSuccess(todo)),
+      error => dispatch(addTodoError(error))
+    )
+  }
+}
+
+export const addTodoSuccess = (todo) => {
   return {
-    type: ADD_TODO,
+    type: ADD_TODO_SUCCESS,
     todo
   }
 }
 
-export const deleteTodo = index => {
+export const addTodoError = (error) => {
   return {
-    type: DELETE_TODO,
+    type: ADD_TODO_ERROR,
+    error
+  }
+}
+
+export const tryDeleteTodo = indexTodo => {
+  return (dispatch, getState) => {
+    const todos = getState().todos.data.filter((item, index) => indexTodo !== index)
+    return apiFirebase.put('todos.json', todos).then(
+      response => dispatch(deleteTodoSuccess(indexTodo)),
+      error => dispatch(deleteTodoError(error))
+    )
+  }
+}
+
+export const deleteTodoSuccess = index => {
+  return {
+    type: DELETE_TODO_SUCCESS,
     index
+  }
+}
+
+export const deleteTodoError = error => {
+  return {
+    type: DELETE_TODO_ERROR,
+    error
   }
 }
 

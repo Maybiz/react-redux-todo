@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
 import { connect } from 'react-redux'
-import { addTodo } from '../store/actions'
+import { tryAddTodo } from '../store/actions'
 
-const AddTodo = ({ addTodo }) => {
+const AddTodo = ({ tryAddTodo }) => {
 
   const inputRef = useRef(null)
 
   const submitTodo = () => {
-    addTodo({
+    tryAddTodo({
       name: inputRef.current.value,
       done: false
     })
@@ -22,4 +22,4 @@ const AddTodo = ({ addTodo }) => {
   )
 }
 
-export default connect(null, { addTodo })(AddTodo);
+export default connect(null, { tryAddTodo })(AddTodo);
