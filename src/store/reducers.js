@@ -28,11 +28,6 @@ export const todos = (state = initialStateTodos, action) => {
           ...state,
           error: action.error
         }
-      // case actions.TOGGLE_TODO:
-      //   return {
-      //     ...state,
-      //     data: state.data.map((item, index) => index === action.index ? { ...item, done: !item.done } : item)
-      // }
       case actions.TOGGLE_TODO_SUCCESS:
         return {
           ...state,

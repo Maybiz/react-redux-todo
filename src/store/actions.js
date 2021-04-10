@@ -8,8 +8,6 @@ export const TRY_DELETE_TODO = 'try delete todo'
 export const DELETE_TODO_SUCCESS = 'delete todo success'
 export const DELETE_TODO_ERROR = 'delete todo error'
 
-// export const TOGGLE_TODO = 'toggle todo';
-
 export const TRY_TOGGLE_TODO = 'try toggle todo'
 export const TOGGLE_TODO_SUCCESS = 'toggle todo success'
 export const TOGGLE_TODO_ERROR = 'toggle todo error'
@@ -81,13 +79,6 @@ export const setFilter = filter => {
     filter
   }
 }
-
-// export const toggleTodo = index => {
-//   return {
-//     type: TOGGLE_TODO,
-//     index
-//   }
-// }
 
 export const tryToggleTodo = (indexTodo) => {
   return (dispatch, getState) => {
