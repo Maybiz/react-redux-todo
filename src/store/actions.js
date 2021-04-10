@@ -4,16 +4,17 @@ export const TRY_ADD_TODO = 'try add todo';
 export const ADD_TODO_SUCCESS = 'add todo success';
 export const ADD_TODO_ERROR = 'add todo error';
 
-// export const DELETE_TODO = 'delete todo';
-
 export const TRY_DELETE_TODO = 'try delete todo'
 export const DELETE_TODO_SUCCESS = 'delete todo success'
 export const DELETE_TODO_ERROR = 'delete todo error'
 
+// export const TOGGLE_TODO = 'toggle todo';
 
+export const TRY_TOGGLE_TODO = 'try toggle todo'
+export const TOGGLE_TODO_SUCCESS = 'toggle todo success'
+export const TOGGLE_TODO_ERROR = 'toggle todo error'
 
 export const SET_FILTER = 'set filter';
-export const TOGGLE_TODO = 'toggle todo';
 
 export const REQUEST_TODO = 'request todo';
 export const FETCH_TODO = 'fetch todo';
@@ -81,10 +82,34 @@ export const setFilter = filter => {
   }
 }
 
-export const toggleTodo = index => {
+// export const toggleTodo = index => {
+//   return {
+//     type: TOGGLE_TODO,
+//     index
+//   }
+// }
+
+export const tryToggleTodo = (indexTodo) => {
+  return (dispatch, getState) => {
+    const todos = getState().todos.data.map((item, index) => index === indexTodo ? { ...item, done: !item.done } : item)
+    return apiFirebase.put('todos.json', todos).then(
+      response => dispatch(toggleTodoSuccess(indexTodo)),
+      error => dispatch(toggleTodoError(error))
+    )
+  }
+}
+
+export const toggleTodoSuccess = index => {
   return {
-    type: TOGGLE_TODO,
+    type: TOGGLE_TODO_SUCCESS,
     index
+  }
+}
+
+export const toggleTodoError = error => {
+  return {
+    type: TOGGLE_TODO_ERROR,
+    error
   }
 }
 

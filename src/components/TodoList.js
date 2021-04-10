@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import TodoItem from './TodoItem'
-import { toggleTodo, fetchTodo, tryDeleteTodo } from "../store/actions"
+import { tryToggleTodo, fetchTodo, tryDeleteTodo } from "../store/actions"
 import { filteredTodoDataSelector } from '../store/selectors'
 
 const TodoList = () => {
@@ -22,7 +22,7 @@ const TodoList = () => {
           key={ item.name }
           todo={ item }
           deleteTodo={ () => dispatch(tryDeleteTodo(index)) }
-          toggleTodo={ () => dispatch(toggleTodo(index)) }
+          toggleTodo={ () => dispatch(tryToggleTodo(index)) }
         />
       )) }
     </ul>
