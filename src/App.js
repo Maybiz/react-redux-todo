@@ -1,4 +1,5 @@
 import React from 'react'
+import { Switch, Route, Redirect } from 'react-router-dom';
 import AddTodo from './components/AddTodo';
 import Filter from './components/Filter';
 import TodoList from './components/TodoList';
@@ -16,7 +17,10 @@ const App = () => {
             <Filter />
           </div>
           <div className="card-body">
-            <TodoList />
+            <Switch>
+              <Route path="/:filter" component={ TodoList } />
+              <Redirect to="/all" />
+            </Switch>
           </div>
         </div>
       </div>

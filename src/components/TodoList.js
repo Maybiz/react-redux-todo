@@ -1,19 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux';
 import TodoItem from './TodoItem'
 import { tryToggleTodo, fetchTodo, tryDeleteTodo } from "../store/actions"
 import { filteredTodoDataSelector } from '../store/selectors'
 
-const TodoList = () => {
-
-  const dispatch = useDispatch()
-  const todos = useSelector(state => {
-    return filteredTodoDataSelector(state)
-  })
+const TodoList = ({ todos, tryToggleTodo, tryDeleteTodo, fetchTodo, ...props }) => {
 
   useEffect(() => {
-    dispatch(fetchTodo())
-  }, [dispatch])
+    fetchTodo()
+  }, [])
 
   return (
     <ul className="list-group">
@@ -21,12 +16,17 @@ const TodoList = () => {
         <TodoItem
           key={ item.name }
           todo={ item }
-          deleteTodo={ () => dispatch(tryDeleteTodo(index)) }
-          toggleTodo={ () => dispatch(tryToggleTodo(index)) }
+          deleteTodo={ () => tryDeleteTodo(index) }
+          toggleTodo={ () => tryToggleTodo(index) }
         />
       )) }
     </ul>
   )
 }
 
-export default TodoList
+export default connect((state, ownProps) => {
+  const filter = ownProps.match.params.filter;
+  return {
+    todos: filteredTodoDataSelector(state, filter)
+  }
+}, {tryToggleTodo, tryDeleteTodo, fetchTodo})(TodoList);

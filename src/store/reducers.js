@@ -67,13 +67,4 @@ export const todos = (state = initialStateTodos, action) => {
     }
 }
 
-export const filter = (state = actions.VisibilityFilters.SHOW_ALL, action) => {
-    switch (action.type) {
-    case actions.SET_FILTER:
-      return action.filter;
-    default:
-      return state
-  }
-}
-
 

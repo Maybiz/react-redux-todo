@@ -12,18 +12,10 @@ export const TRY_TOGGLE_TODO = 'try toggle todo'
 export const TOGGLE_TODO_SUCCESS = 'toggle todo success'
 export const TOGGLE_TODO_ERROR = 'toggle todo error'
 
-export const SET_FILTER = 'set filter';
-
 export const REQUEST_TODO = 'request todo';
 export const FETCH_TODO = 'fetch todo';
 export const FETCH_TODO_SUCCESS = 'fetch todo success';
 export const FETCH_TODO_ERROR = 'fetch todo error';
-
-export const VisibilityFilters = {
-    SHOW_ALL: 'SHOW_ALL',
-    SHOW_DONE: 'SHOW_DONE',
-    SHOW_ACTIVE: 'SHOW_ACTIVE'
-}
 
 export const tryAddTodo = (todo) => {
   return (dispatch, getState) => {
@@ -70,13 +62,6 @@ export const deleteTodoError = error => {
   return {
     type: DELETE_TODO_ERROR,
     error
-  }
-}
-
-export const setFilter = filter => {
-  return {
-    type: SET_FILTER,
-    filter
   }
 }
 
