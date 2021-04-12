@@ -4,11 +4,11 @@ import TodoItem from './TodoItem'
 import { tryToggleTodo, fetchTodo, tryDeleteTodo } from "../store/actions"
 import { filteredTodoDataSelector } from '../store/selectors'
 
-const TodoList = ({ todos, tryToggleTodo, tryDeleteTodo, fetchTodo, ...props }) => {
+const TodoList = ({ todos, tryToggleTodo, tryDeleteTodo, fetchTodo }) => {
 
   useEffect(() => {
     fetchTodo()
-  }, [])
+  }, [fetchTodo])
 
   return (
     <ul className="list-group">

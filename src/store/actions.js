@@ -18,12 +18,14 @@ export const FETCH_TODO_SUCCESS = 'fetch todo success';
 export const FETCH_TODO_ERROR = 'fetch todo error';
 
 export const tryAddTodo = (todo) => {
-  return (dispatch, getState) => {
-    const todos = [ ...getState().todos.data, todo ];
-    return apiFirebase.put('todos.json', todos).then(
-      response => dispatch(addTodoSuccess(todo)),
-      error => dispatch(addTodoError(error))
-    )
+  return async (dispatch, getState) => {
+    const todos = [ ...getState().todos.data, todo ]  
+    try {
+      await apiFirebase.put('todos.json', todos)
+      dispatch(addTodoSuccess(todo))
+    } catch(e) {
+      dispatch(addTodoError(e))
+    }  
   }
 }
 
@@ -42,12 +44,14 @@ export const addTodoError = (error) => {
 }
 
 export const tryDeleteTodo = indexTodo => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const todos = getState().todos.data.filter((item, index) => indexTodo !== index)
-    return apiFirebase.put('todos.json', todos).then(
-      response => dispatch(deleteTodoSuccess(indexTodo)),
-      error => dispatch(deleteTodoError(error))
-    )
+    try {
+      await apiFirebase.put('todos.json', todos)
+      dispatch(deleteTodoSuccess(indexTodo))
+    } catch(e) {
+      dispatch(deleteTodoError(e))
+    }
   }
 }
 
@@ -66,12 +70,14 @@ export const deleteTodoError = error => {
 }
 
 export const tryToggleTodo = (indexTodo) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const todos = getState().todos.data.map((item, index) => index === indexTodo ? { ...item, done: !item.done } : item)
-    return apiFirebase.put('todos.json', todos).then(
-      response => dispatch(toggleTodoSuccess(indexTodo)),
-      error => dispatch(toggleTodoError(error))
-    )
+    try {
+      await apiFirebase.put('todos.json', todos)
+      dispatch(toggleTodoSuccess(indexTodo))
+    } catch(e) {
+      dispatch(toggleTodoError(e))
+    }
   }
 }
 
@@ -110,12 +116,13 @@ export const fetchTodoError = (error) => {
 }
 
 export const fetchTodo = () => {
-  return dispatch => {
-    
+  return async dispatch => { 
     dispatch(requestTodo())
-
-    return apiFirebase.get('todos.json')
-    .then(resp => dispatch(fetchTodoSuccess(resp.data)))
-    .catch(err => dispatch(fetchTodoError(err)))
+    try {
+      const response = await apiFirebase.get('todos.json')
+      dispatch(fetchTodoSuccess(response.data))
+    } catch(e) {
+      dispatch(fetchTodoError(e))
+    }
   }
 }
